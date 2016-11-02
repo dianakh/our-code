@@ -188,13 +188,11 @@ if(type.equals(face)) {
                     JSONObject c = peoples.getJSONObject(i);
                     String db_name = c.getString(TAG_name);
                     String db_gender = c.getString(TAG_gender);
-                    String db_email= c.getString(TAG_email);
                     String db_phone = c.getString(TAG_phone);
                     String db_location = c.getString(TAG_location);
                     name.setText(db_name);
                     gender.setText(db_gender);
                     phone.setText(db_phone);
-                    email.setText(db_email);
                     location.setText(db_location);
                     ProfilePictureView profilePictureView;
                     profilePictureView = (ProfilePictureView) findViewById(R.id.picture);

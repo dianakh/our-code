@@ -177,16 +177,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-          FacebookSdk.sdkInitialize(getApplicationContext());
-             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-           String n=pref.getString("valid_user","defult");
-            if(n.equals("logged")) {
-                Intent intent = new Intent(MainActivity.this, ShowRecipe.class);
-                startActivity(intent);
-            }
-           else{
-              startActivity(new Intent(this, MainActivity.class));
-          }
+        //  FacebookSdk.sdkInitialize(getApplicationContext());
+        //     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+         //  String n=pref.getString("valid_user","defult");
+         //   if(n.equals("logged")) {
+         //       Intent intent = new Intent(MainActivity.this, ShowRecipe.class);
+           //     startActivity(intent);
+         //   }
+        //   else{
+        //      startActivity(new Intent(this, MainActivity.class));
+    //      }
         // Always call the superclass method first
     //   Log.d("onResume","");
     //   if(AccessToken.getCurrentAccessToken() != null ) {

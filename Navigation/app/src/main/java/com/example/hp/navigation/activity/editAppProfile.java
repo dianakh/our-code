@@ -278,7 +278,7 @@ public class editAppProfile extends BaseActivity {
 
 
     private boolean isValidphone(String phone) {
-        String name_PATTERN = "^\\+[0-9]{8,16}$";
+        String name_PATTERN = "^[0-9]{8,16}$";
         Pattern pattern = Pattern.compile(name_PATTERN);
         Matcher matcher = pattern.matcher(phone);
         return (matcher.matches());
