@@ -584,6 +584,8 @@ public class Sec extends BaseActivity {
 
 
     }
+
+
     // When you change direction of phone, this method will be called.
     // It store the state of video (Current position)
     @Override
@@ -761,7 +763,8 @@ Log.d("result",s);
 
 
                     }
-                    video=video.trim();
+
+                    video=video.replaceAll("\\s","");
                     if(video.equals("no video")){
                         videoLayout.setVisibility(LinearLayout.GONE);
                     }
@@ -772,7 +775,7 @@ Log.d("result",s);
 
                         vidView.requestFocus();
                     }
-                   titl.setText(title);
+                    titl.setText(title);
                     des.setText(alldesc);
                     calor.setText(calory);
                     pre.setText(prep);
@@ -810,6 +813,16 @@ Log.d("result",s);
                     e.printStackTrace();
 
                 }
+
+                Username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(Sec.this, profile.class));
+
+                    }
+                });
+
+
                 share.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View arg0)  {
                         FacebookSdk.sdkInitialize(getApplicationContext());

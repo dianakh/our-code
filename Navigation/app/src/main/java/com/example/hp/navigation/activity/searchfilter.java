@@ -76,6 +76,7 @@ public class searchfilter extends BaseActivity {
     public String total = "";
     public Button Search;
     public  TextView Text;
+    public  TextView Chief;
     public String[] myDataadesc;
     recipeDbHelper userDbHelper3;
     String val="";
@@ -83,11 +84,13 @@ public class searchfilter extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searchfilter)
-        ;
+        getLayoutInflater().inflate(R.layout.activity_searchfilter, frameLayout);
+        mDrawerList.setItemChecked(position, true);
+        setTitle("search filter ");
         titl = (TextView) findViewById(R.id.title);
         Text= (TextView) findViewById(R.id.totaltime);
         calor = (TextView) findViewById(R.id.calory);
+        Chief=(TextView) findViewById(R.id.chief);
         // lis = (TextView) findViewById(R.id.list);
         spinner1 = (Spinner) findViewById(R.id.spinner1);
 
@@ -204,6 +207,7 @@ public class searchfilter extends BaseActivity {
         Search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 title=titl.getText().toString();
+                String ch=Chief.getText().toString();
                 calory=  calor.getText().toString();
 //              total=  tota.getText().toString();
 //              list=  lis.getText().toString();
@@ -217,6 +221,7 @@ public class searchfilter extends BaseActivity {
                 i.putExtra("list", list);
                 i.putExtra("total", val);
                 i.putExtra("qan", qan);
+                i.putExtra("ch", ch);
                 i.putExtra("type", "search");
                 startActivity(i);
                 // String m=b.getText().toString();

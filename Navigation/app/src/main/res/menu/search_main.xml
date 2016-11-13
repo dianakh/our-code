@@ -10,7 +10,8 @@
         android:title="Search"/>
     <item
         android:id="@+id/filter"
-        android:icon="@drawable/filter"
+        android:icon="@drawable/fi"
+        android:background="@null"
         app:showAsAction="always"
         android:title="filter search"/>
 

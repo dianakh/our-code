@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -56,6 +57,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import android.content.SharedPreferences;
 import android.widget.VideoView;
+
+import static com.example.hp.navigation.activity.Vivsadapter.context;
 //import android.asynctask.library.JSONParser;
 //import android.support.v4.view.MenuItemCompat;
 //import android.support.v7.widget.SearchView;
@@ -144,16 +147,14 @@ public class AddRecipe extends BaseActivity {
         Prep= (EditText) findViewById(R.id.prep);
         // Total= (EditText) findViewById(R.id.total);
         Cook= (EditText) findViewById(R.id.cook);
-        t1=(TextView) findViewById(R.id.text1);
+        t1=(TextView) findViewById(R.id.t1);
         Desc=  (EditText) findViewById(R.id.desc);
         Textnum= (TextView) findViewById(R.id.textnum);
 //=======Code For copying Existing Database file to system folder for use====//
         // Copying Existing Database into system folder
         try {
-
             String destPath = "/data/data/" + getPackageName()
                     + "/databases/data.db";
-
             File f = new File(destPath);
             if(!f.exists()){
                 Log.v(TAG,"File Not Exist");
@@ -666,7 +667,7 @@ public class AddRecipe extends BaseActivity {
                     System.out.println("SELECT_video");
                     Uri selectedImageUri = data.getData();
                     selectedPath = getPath(selectedImageUri);
-                   // t1.setText("SELECT_video Path :" +selectedPath);
+                   t1.setText("SELECT_video Path :" +selectedPath+"");
                     Log.d("path","SELECT_video Path :" +selectedPath);
                 }
                 else if (resultCode == RESULT_CANCELED) {
@@ -755,17 +756,21 @@ public class AddRecipe extends BaseActivity {
             }
 
         } catch (Exception e) {
-            Toast.makeText(this, "some thing went wrong ", Toast.LENGTH_LONG)
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG)
                     .show();
         }
 
     }
     public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        String[] proj = { MediaStore.Images.Media.DATA };
+        CursorLoader loader = new CursorLoader(context, uri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+        String result = cursor.getString(column_index);
+        Log.d("videopath",result);
+        cursor.close();
+        return result;
     }
     private class doupload extends AsyncTask<String, Integer, String> {
 
@@ -1024,7 +1029,7 @@ public class AddRecipe extends BaseActivity {
                     data.put("cook", params[7]);
                     data.put("video", videoName);
                     data.put("image", image_str);
-                    data.put("video",str);
+                    data.put("video",videoName);
                     data.put("nameimage", nameimage);
                     data.put("type", "face");
                     data.put("face_id", user1);

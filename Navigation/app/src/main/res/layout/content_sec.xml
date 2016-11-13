@@ -131,7 +131,9 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="username"
-            android:id="@+id/username" />
+            android:id="@+id/username"
+            android:clickable="true"
+            android:autoLink="web"/>
 
     </LinearLayout>
 
