@@ -1,38 +1,32 @@
 package com.example.hp.navigation.activity;
 
 import android.annotation.TargetApi;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ArrayAdapter;
-import android.content.Intent;
+
+import com.navigation.drawer.activity.R;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import android.content.Context;
-import android.net.ConnectivityManager;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import android.widget.AdapterView;
-import android.net.NetworkInfo;
-
-import com.facebook.FacebookSdk;
-import com.navigation.drawer.activity.R;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ShowRecipe extends BaseActivity {
     ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -47,6 +41,7 @@ public class ShowRecipe extends BaseActivity {
     Cursor cursor1;
     Cursor cursor2;
     Cursor cursor4;
+   public static RecyclerView mRecyclerView;
     Vivsadapter vivsadapter1;
     public static ListView listVieww;
     public static ListView listView;
@@ -55,23 +50,15 @@ public class ShowRecipe extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-    //    FacebookSdk.sdkInitialize(getApplicationContext());
-   //     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-  //      String n=pref.getString("valid_user","defult");
-   //     if(n.equals("logged")) {
-
-            getLayoutInflater().inflate(R.layout.showrecipe, frameLayout);
-     //
-    //    else{
-     //       startActivity(new Intent(this, MainActivity.class));
-     //   }
+        getLayoutInflater().inflate(R.layout.showrecipe, frameLayout);
 
         /**
          * Setting title and itemChecked
          */
         mDrawerList.setItemChecked(position, true);
         setTitle(listArray[position]);
-        listVieww=(ListView)findViewById(R.id.lv);
+        mRecyclerView = (RecyclerView) findViewById(R.id.masonry_grid);
+       // listVieww=(ListView)findViewById(R.id.lv);
         //  Text = (TextView) findViewById(R.id.text);
     /*   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +79,13 @@ sqliteoffline();
             Toast.makeText(getApplicationContext(), "notconnected", Toast.LENGTH_SHORT).show();
         }
 
+
+
+
+
+
     }
+
 
     public boolean isOnline() {
         ConnectivityManager cm =
@@ -100,7 +93,10 @@ sqliteoffline();
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
     public void sqliteoffline() {
+
+
         records= new ArrayList<Record>();
         //vivs=new Vivsadapter(getApplicationContext(),R.layout.single_row);
         userDbHelper2=new recipeDbHelper(getApplicationContext());
@@ -118,21 +114,38 @@ sqliteoffline();
                 String image =cursor1.getString(0);
 
 String rating=cursor4.getString(0);
-                record = new Record(title, id,image,rating);
-                records.add(record);
-                vivsadapter1 = new Vivsadapter(ShowRecipe.this,records);
-                listVieww.setAdapter(vivsadapter1);
-                listVieww.setItemsCanFocus(true);
-                listVieww.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        Intent i=new Intent(ShowRecipe.this,Showonesqliteoffline.class);
-                        i.putExtra("title",vivsadapter1.gettitle(position));
-                        startActivity(i);
-                        //Toast.makeText(getApplicationContext(),vivsadapter.gettitle(position), Toast.LENGTH_LONG).show();
-                    }
-                });
+                record = new Record(title, id,image,rating);
+
+
+                records.add(record);
+                Vivsadapter adapter = new Vivsadapter(ShowRecipe.this,records);
+                mRecyclerView = (RecyclerView) findViewById(R.id.masonry_grid);
+
+
+
+
+               // mRecyclerView.addItemDecoration(new SpacesItemDecoration(this, StaggeredGridLayoutManager.VERTICAL));
+
+                mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                SpacesItemDecoration decoration = new SpacesItemDecoration(50);
+
+                mRecyclerView.addItemDecoration(decoration);
+                mRecyclerView.setTag("offline");
+                mRecyclerView.setAdapter(adapter);
+
+             /*   mRecyclerView.addOnItemTouchListener(
+                        new RecyclerItemClickListener(getApplicationContext(),  mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                // do whatever
+                                Toast.makeText(getApplicationContext(), "good", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override public void onLongItemClick(View view, int position) {
+                                // do whatever
+                            }
+                        })
+                );*/
             }while (cursor.moveToNext()&&cursor1.moveToNext()&&cursor2.moveToNext()&&cursor4.moveToNext());
 
         }
@@ -142,6 +155,7 @@ String rating=cursor4.getString(0);
     }
     protected void onStop() {
         // TODO Auto-generated method stub
+        mRecyclerView.setTag("nnsec");
         userDbHelper2=new recipeDbHelper(getApplicationContext());
         sqLiteDatabase=userDbHelper2.getReadableDatabase();
     //  userDbHelper2.droptables(sqLiteDatabase);
@@ -163,14 +177,20 @@ String rating=cursor4.getString(0);
             public String image = "";
             ArrayAdapter<String> itemsAdapter;
             Record record;
+
+
             @Override
             public void onPreExecute() {
                 //   new  as.execute();
                 super.onPreExecute();
+
+
             }
+
             @Override
             public void onPostExecute(String s) {
                 super.onPostExecute(s);
+                Log.d("show recipe ",s);
                // listVieww=(ListView)findViewById(R.id.lv);
                 records= new ArrayList<Record>();
 
@@ -192,23 +212,43 @@ String rating=cursor4.getString(0);
                            // byte[] qrimage = Base64.decode(image.getBytes(), i);
                             //bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
                             record = new Record(title, id,image,rating);
+
+
                             records.add(record);
+
+
+
+
+
+
                         }
+                        Vivsadapter adapter = new Vivsadapter(ShowRecipe.this,records);
+                        mRecyclerView = (RecyclerView) findViewById(R.id.masonry_grid);
 
-                        vivsadapter = new Vivsadapter(ShowRecipe.this,records);
-                        listVieww.setAdapter(vivsadapter);
-                        listVieww.setItemsCanFocus(true);
-                        listVieww.setOnItemClickListener(new AdapterView.OnItemClickListener()
 
-                        {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Intent i=new Intent(ShowRecipe.this,Sec.class);
-                                i.putExtra("title",vivsadapter.gettitle(position));
-                                startActivity(i);
-                            }
-                        });
 
+
+                        //mRecyclerView.addItemDecoration(new SpacesItemDecoration(ShowRecipe.this, StaggeredGridLayoutManager.VERTICAL));
+                        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                        SpacesItemDecoration decoration = new SpacesItemDecoration(100);
+                        mRecyclerView.addItemDecoration(decoration);
+                        mRecyclerView.setTag("sec");
+                        adapter.notifyDataSetChanged();
+                        mRecyclerView.setAdapter(adapter);
+
+                      /*  mRecyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(getApplicationContext(),  mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position) {
+                                        // do whatever
+                                        Toast.makeText(getApplicationContext(), "good", Toast.LENGTH_LONG).show();
+                                    }
+
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        // do whatever
+                                    }
+                                })
+                        );
+                        ;*/
                      /*   JSONObject list = jObj.getJSONObject("list");
                         String item = list.toString();
                         JSONArray itemm = list.getJSONArray("item");
@@ -236,6 +276,9 @@ String rating=cursor4.getString(0);
                         e.printStackTrace();
 
                     }
+
+
+
             }
 
             @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -249,7 +292,9 @@ String rating=cursor4.getString(0);
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(urls.openStream(), "UTF-8"))) {
                         while ((line = reader.readLine()) != null) {
                             newjson += line;
+
                         }
+
                          json = newjson.toString();
                         //JSONObject jObj = new JSONObject(json);
 
@@ -263,8 +308,12 @@ String rating=cursor4.getString(0);
 
                     return "false";
                 }
+
             }
         }
+
+
+
         RegisterUser ru = new RegisterUser();
         ru.execute();
 

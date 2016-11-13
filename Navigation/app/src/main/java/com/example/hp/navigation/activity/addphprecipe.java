@@ -1,6 +1,8 @@
 package com.example.hp.navigation.activity;
 
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -22,9 +24,11 @@ public class addphprecipe {
     public String sendPostRequest(String requestURL,
                                   HashMap<String, String> postDataParams) {
 
+        Log.d("1","start");
         URL url;
         String response = "";
         try {
+            Log.d("2","start");
             url = new URL(requestURL);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -34,7 +38,7 @@ public class addphprecipe {
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
-
+            Log.d("3","start");
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
@@ -43,13 +47,16 @@ public class addphprecipe {
             writer.flush();
             writer.close();
             os.close();
+            Log.d("4","start");
             int responseCode=conn.getResponseCode();
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
+                Log.d("5","start");
                 BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 response = br.readLine();
             }
             else {
+                Log.d("6","start");
                 response="Error adding";
             }
         } catch (Exception e) {
