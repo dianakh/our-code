@@ -13,7 +13,11 @@ $list = $_POST['list'];
 $total = $_POST['total'];
 $prep = $_POST['prep'];
 $cook = $_POST['cook'];
+$video = $_POST['video'];
 $image = $_POST['image'];
+
+$type = $_POST['type'];
+
 $nameimage = $_POST['nameimage'];
 $decodedImage = base64_decode($image);
 //upload the image
@@ -35,7 +39,13 @@ $check = mysqli_fetch_array(mysqli_query($con,$sql));
 if(isset($check)){
 echo 'title already exist';
 }else{
-$sql = "INSERT INTO recipe (title,calory,descc,list,prep,cook,total,image) VALUES('$title','$calory','$desc','$list','$prep','$cook','$total','$imagename')";
+if($type=="app" ){
+$user_key =  $_POST['user_key'];
+$sql = "INSERT INTO recipe (title,calory,descc,list,prep,cook,total,image,video,user_key,type) VALUES('$title','$calory','$desc','$list','$prep','$cook','$total','$imagename','$video','$user_key','$type')";
+}else{
+$face_id =$_POST['face_id'];
+$sql = "INSERT INTO recipe (title,calory,descc,list,prep,cook,total,image,video,face_id,type) VALUES('$title','$calory','$desc','$list','$prep','$cook','$total','$imagename','$video','$face_id','$type')";
+}
 if(!$sql){
 echo "err";
 }
