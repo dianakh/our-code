@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -33,21 +34,25 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.facebook.login.widget.ProfilePictureView;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.navigation.drawer.activity.R;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -58,6 +63,10 @@ public class Sec extends BaseActivity {
     public TextView titl;
     public TextView calor;
     public TextView Username;
+    JSONArray peoples = null;
+    String myJSON;
+    private static final String TAG_RESULTS="result";
+    private static final String TAG_name = "name";
     public TextView pre;
     public TextView des;
     public TextView coo;
@@ -67,6 +76,14 @@ public class Sec extends BaseActivity {
     public String all="";
     public TextView T;
     public Bitmap bmp;
+    public static TextView Textcal;
+    public static TextView Textpro;
+    public static TextView Textcalc;
+    public static TextView Textiron;
+    public static TextView Textvitc;
+    public static TextView Textvitb6;
+    public static TextView Textvitb12;
+    public static TextView Textvite;
     public  ImageView imagevieww;
     private int position = 0;
     private MediaController mediaController;
@@ -75,24 +92,18 @@ public class Sec extends BaseActivity {
     public static final String mBroadcastStringAction = "com.truiton.broadcast.string";
     private final static String TAG = "BroadcastService";
    public Intent i;
-   String flag="0";
-    int ii;
-    CountDownTimer countdown= null;;
-    public MediaPlayer mp;
+
     recipeDbHelper userDbHelper2;
     SQLiteDatabase sqLiteDatabase;
     LinearLayout videoLayout;
     Cursor cursor;
-    Cursor cursor1;
-    Cursor cursor2;
+
     int r=0;
-    int count = 0;
-    boolean[] timerProcessing = { false };
-    boolean[] timerStarts = { false };
+
    // public MyCount timer;
     public Button b;
     public Button s;
-    public Button Go;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +119,14 @@ public class Sec extends BaseActivity {
         share = (ImageButton) findViewById(R.id.share);
      imagevieww = (ImageView) findViewById(R.id.imagev);
         vidView = (VideoView)findViewById(R.id.myVideo);
+        Textvitc=(TextView) findViewById(R.id.text_c);
+        Textcal=(TextView) findViewById(R.id.textcal);
+        Textpro=(TextView) findViewById(R.id.text_pro);
+        Textiron=(TextView) findViewById(R.id.text_iron);
+        Textcalc=(TextView) findViewById(R.id.text_calc);
+        Textvitb6=(TextView) findViewById(R.id.text_b6);
+        Textvitb12=(TextView) findViewById(R.id.text_b12);
+        Textvite=(TextView) findViewById(R.id.text_e);
          videoLayout=(LinearLayout)this.findViewById(R.id.videolayout);
         // Set the media controller buttons
         if (mediaController == null) {
@@ -643,12 +662,19 @@ public class Sec extends BaseActivity {
             public String video = "";
             public String list = "";
             public String User = "";
+            public String vitc = "";
+            public String pro = "";
+            public String iron = "";
+            public String calc = "";
+            public String vitb6 = "";
+            public String vitb12 = "";
+            public String vite = "";
             public Integer id;
             ImageView imageview;
             public String all="";
             public String alldesc="";
             public String name1 = "";
-            private TextView Text;
+
             private LoginManager loginManager;
             ArrayList<Record> records;
             Vivsadapter vivsadapter;
@@ -701,6 +727,13 @@ Log.d("result",s);
                         rating = c.getString("rating");
                         photo = c.getString("photo");
                         User = c.getString("username");
+                        vitc = c.getString("vitc");
+                        pro = c.getString("pro");
+                        calc = c.getString("calc");
+                        iron = c.getString("iron");
+                        vitb6 = c.getString("vitb6");
+                        vitb12 = c.getString("vitb12");
+                        vite = c.getString("vite");
 
                       //  JSONArray it = c.getJSONArray("list");
                     //    list = it.toString();
@@ -765,7 +798,7 @@ Log.d("result",s);
                     }
 
                     video=video.replaceAll("\\s","");
-                    if(video.equals("no video")){
+                    if(video.equals("novideo")){
                         videoLayout.setVisibility(LinearLayout.GONE);
                     }
                     else {
@@ -781,8 +814,17 @@ Log.d("result",s);
                     pre.setText(prep);
                     tota.setText(total);
                     coo.setText(cook);
+                    Textcal.setText(calory);
                     Integ.setText(all);
                     Username.setText(User);
+                    Textvitb6.setText(vitb6);
+
+                    Textvitb12.setText(vitb12);
+                    Textvite.setText(vite);
+                    Textpro.setText(pro);
+                    Textiron.setText(iron);
+                    Textcalc.setText(calc);
+                    Textvitc.setText(vitc);
                     Toast.makeText(getApplicationContext(), cook, Toast.LENGTH_LONG).show();
                     vivsadapter = new Vivsadapter(Sec.this,records);
 
@@ -817,8 +859,8 @@ Log.d("result",s);
                 Username.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Sec.this, profile.class));
-
+                        GetchifData g = new GetchifData();
+                        g.execute(User,title);
                     }
                 });
 
@@ -986,7 +1028,7 @@ Log.d("result",s);
 
             @Override
             public String doInBackground(String... params) {
-                Text = (TextView) findViewById(R.id.textt);
+
 
                 try {
                     String line, newjson = "";
@@ -1040,6 +1082,96 @@ Log.d("result",s);
 
 
     }
+
+
+    public class GetchifData extends AsyncTask<String,Void,String> {
+        protected String doInBackground(String... params) {
+            String login_url = "http://10.0.2.2/getchif_data.php";
+            try
+            {
+                String chif = params[0];
+                String recipe_title = params[1];
+                URL url = new URL(login_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("chif","UTF-8")+"="+URLEncoder.encode(chif,"UTF-8")+"&"
+                        +URLEncoder.encode("title","UTF-8")+"="+URLEncoder.encode(recipe_title,"UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String result="";
+                String line="";
+                while((line = bufferedReader.readLine())!= null)
+                {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            }
+            catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPreExecute()
+        {
+            String s="start";
+            Log.d("get chif data",s );
+        }
+        @Override
+        protected void onPostExecute(String result)
+        {
+            Log.d("get chif data",result);
+            myJSON=result;
+            try {
+                JSONObject jsonObj = new JSONObject(myJSON);
+                peoples = jsonObj.getJSONArray(TAG_RESULTS);
+                for(int i=0;i<peoples.length();i++){
+                    JSONObject c = peoples.getJSONObject(i);
+                    String db_type = c.getString("chif_type");
+                    String db_appid = c.getString("chif_appid");
+                    String db_faceid = c.getString("chif_faceid");
+                    SharedPreferences pref = getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("chif_type", db_type);
+                    if(db_appid.equals("noid")){
+                        editor.putString("chif_id", db_faceid);
+                    }
+                    if(db_faceid.equals("noid")){
+                        editor.putString("chif_id", db_appid);
+                    }
+
+
+
+                    editor.commit();
+                }
+                startActivity(new Intent(Sec.this, chifProfile.class));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+    }
+
+
 
     public static void jsorating(String title, String rating) {
 

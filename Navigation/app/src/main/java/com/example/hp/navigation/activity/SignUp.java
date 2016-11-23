@@ -1,4 +1,3 @@
-
 package com.example.hp.navigation.activity;
 
 
@@ -54,7 +53,7 @@ public class SignUp extends AppCompatActivity {
                 String Em = email.getText().toString().trim();
                 email.setError(null);
                 valid_flag4=null;
-                if (!isValidname(Em)) {
+                if (!isValidemail(Em)) {
 
                     email.setError("Wrong email");
                     valid_flag4="err";
@@ -250,7 +249,7 @@ public class SignUp extends AppCompatActivity {
                 super.onPostExecute(s);
 String succ="successfully registered";
 
-                Toast.makeText(getApplicationContext(),s+valid_flag,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
                 if(s.equals(succ)){
                     SharedPreferences pref = getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
