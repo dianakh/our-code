@@ -83,7 +83,7 @@ public class LoginActivity extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String result) {
-String status=result;
+
 result=result.replaceAll("\\s","");
         if(result.equals("ok")){
 
@@ -91,10 +91,8 @@ result=result.replaceAll("\\s","");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.getApplicationContext().startActivity(intent);
         }
-        else{
-            alertDialog.setMessage(status);
-             alertDialog.show();
-        }
+        else{  alertDialog.setMessage(result);
+             alertDialog.show();}
     }
 
     @Override

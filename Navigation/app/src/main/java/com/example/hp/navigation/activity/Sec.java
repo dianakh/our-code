@@ -19,6 +19,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -58,7 +61,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class Sec extends BaseActivity {
+public class Sec extends BaseActivity implements View.OnClickListener  {
     String title;
     public TextView titl;
     public TextView calor;
@@ -97,7 +100,8 @@ public class Sec extends BaseActivity {
     SQLiteDatabase sqLiteDatabase;
     LinearLayout videoLayout;
     Cursor cursor;
-
+    WebView simpleWebView;
+    Button loadWebPage;
     int r=0;
 
    // public MyCount timer;
@@ -114,6 +118,7 @@ public class Sec extends BaseActivity {
          */
         mDrawerList.setItemChecked(position, true);
         setTitle(listArray[position]);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         b = (Button) findViewById(R.id.totalbutton);
         share = (ImageButton) findViewById(R.id.share);
@@ -128,42 +133,12 @@ public class Sec extends BaseActivity {
         Textvitb12=(TextView) findViewById(R.id.text_b12);
         Textvite=(TextView) findViewById(R.id.text_e);
          videoLayout=(LinearLayout)this.findViewById(R.id.videolayout);
-        // Set the media controller buttons
-        if (mediaController == null) {
-            mediaController = new MediaController(Sec.this);
-
-            // Set the videoView that acts as the anchor for the MediaController.
-            mediaController.setAnchorView(vidView);
-
-
-            // Set MediaController for VideoView
-            vidView.setMediaController(mediaController);
-        }
-
-        // When the video file ready for playback.
-        vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-            public void onPrepared(MediaPlayer mediaPlayer) {
-
-
-                vidView.seekTo(position);
-                if (position == 0) {
-                    vidView.start();
-                }
-
-                // When video Screen change size.
-                mediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                    @Override
-                    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-
-                        // Re-Set the videoView that acts as the anchor for the MediaController
-                        mediaController.setAnchorView(vidView);
-
-                    }
-                });
-            }
-        });
-
+        loadWebPage = (Button) findViewById(R.id.loadWebPage);
+        loadWebPage.setOnClickListener(this);
+        simpleWebView = (WebView) findViewById(R.id.simpleWebView);
+        simpleWebView.getSettings().setSupportZoom(true);
+        simpleWebView.getSettings().setBuiltInZoomControls(true);
+        simpleWebView.getSettings().setDisplayZoomControls(false);
         // Go = (Button) findViewById(R.id.go);
         title=getIntent().getStringExtra("title");
         titl = (TextView) findViewById(R.id.title1);
@@ -600,8 +575,58 @@ public class Sec extends BaseActivity {
             long millisUntilFinished = intent.getLongExtra("count", 0);
             Log.i(TAG, "Countdown : " +  millisUntilFinished / 1000);
         }*/
+        // Set the media controller buttons
+        if (mediaController == null) {
+            mediaController = new MediaController(Sec.this);
+
+            // Set the videoView that acts as the anchor for the MediaController.
+            mediaController.setAnchorView(vidView);
 
 
+            // Set MediaController for VideoView
+            vidView.setMediaController(mediaController);
+        }
+
+        // When the video file ready for playback.
+        vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                vidView.seekTo(position);
+                //    if (position == 0) {
+                //        vidView.start();
+                //   }
+
+                // When video Screen change size.
+                mediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
+                    @Override
+                    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+
+                        // Re-Set the videoView that acts as the anchor for the MediaController
+                        mediaController.setAnchorView(vidView);
+
+                    }
+                });
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        String t=title;
+                simpleWebView.setWebViewClient(new MyWebViewClient());
+                String url = "http://10.0.2.2/index.php?recipe="+t;
+                simpleWebView.getSettings().setJavaScriptEnabled(true);
+                simpleWebView.loadUrl(url); // load a web page in a web view
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 
 
