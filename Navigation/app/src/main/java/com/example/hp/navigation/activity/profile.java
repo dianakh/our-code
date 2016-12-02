@@ -71,6 +71,8 @@ public class profile extends BaseActivity {
     String myJSON;
     ImageView Img;
     public Bitmap bmp;
+    public Button showrecipeapp;
+    public Button showrecipeface;
     private static final String TAG_RESULTS="result";
     private static final String TAG_name = "name";
     private static final String TAG_picture="picture";
@@ -85,13 +87,30 @@ public class profile extends BaseActivity {
         String user=type_user.getString("user_type","");
             super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
-      //  setContentView(R.layout.face_profile);
         if(user.equals("app")) {
             getLayoutInflater().inflate(R.layout.app_profile, frameLayout);
+            showrecipeapp = (Button) findViewById(R.id.showrecipeapp);
+            showrecipeapp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    startActivity(new Intent(profile.this, ShowMyRecipe.class));
+
+
+                }
+            });
         }
         else
         {
             getLayoutInflater().inflate(R.layout.face_profile, frameLayout);
+            showrecipeface=(Button) findViewById(R.id.showrecipeface);
+            showrecipeface.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    startActivity(new Intent(profile.this, ShowMyRecipe.class));
+                }
+            });
         }
 
         /**
