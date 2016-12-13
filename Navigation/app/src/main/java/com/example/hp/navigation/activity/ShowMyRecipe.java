@@ -37,7 +37,7 @@ package com.example.hp.navigation.activity;
              super.onCreate(savedInstanceState);
              getLayoutInflater().inflate(R.layout.showrecipe, frameLayout);
              mDrawerList.setItemChecked(position, true);
-             setTitle(listArray[position]);
+             setTitle("My Recipe");
              mRecyclerView = (RecyclerView) findViewById(R.id.masonry_grid);
                  if(isOnline())
                  {

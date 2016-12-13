@@ -365,7 +365,7 @@ public class AddRecipe extends BaseActivity {
         });
 
 
-        buttonChoosvideo = (Button) findViewById(R.id.button); //video
+        buttonChoosvideo = (Button) findViewById(R.id.videobutton); //video
         buttonChoosvideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -56,7 +56,7 @@ public class ShowRecipe extends BaseActivity {
          * Setting title and itemChecked
          */
         mDrawerList.setItemChecked(position, true);
-        setTitle(listArray[position]);
+        setTitle("Show Recipe");
         mRecyclerView = (RecyclerView) findViewById(R.id.masonry_grid);
        // listVieww=(ListView)findViewById(R.id.lv);
         //  Text = (TextView) findViewById(R.id.text);

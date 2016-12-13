@@ -39,7 +39,7 @@
         <item>Very Active</item>
 
     </string-array>
-    <string name="app_name">NavigationDrawer</string>
+    <string name="app_name">Registration</string>
     <string name="hello_world">Hello world!</string>
     <string name="dummy_string">Dummy String</string>
 

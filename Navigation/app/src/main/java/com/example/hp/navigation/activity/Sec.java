@@ -20,6 +20,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -91,6 +93,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
     private int position = 0;
     private MediaController mediaController;
     VideoView vidView;
+    ScrollView scroll;
     BroadcastReceiver receiver;
     public static final String mBroadcastStringAction = "com.truiton.broadcast.string";
     private final static String TAG = "BroadcastService";
@@ -119,6 +122,9 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
         mDrawerList.setItemChecked(position, true);
         setTitle(listArray[position]);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        scroll=(ScrollView) findViewById(R.id.scrollView2);
+        scroll.smoothScrollTo(0,0);
+      //  scroll.fullScroll(ScrollView.FOCUS_UP);
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         b = (Button) findViewById(R.id.totalbutton);
         share = (ImageButton) findViewById(R.id.share);
@@ -136,9 +142,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
         loadWebPage = (Button) findViewById(R.id.loadWebPage);
         loadWebPage.setOnClickListener(this);
         simpleWebView = (WebView) findViewById(R.id.simpleWebView);
-        simpleWebView.getSettings().setSupportZoom(true);
-        simpleWebView.getSettings().setBuiltInZoomControls(true);
-        simpleWebView.getSettings().setDisplayZoomControls(false);
+
         // Go = (Button) findViewById(R.id.go);
         title=getIntent().getStringExtra("title");
         titl = (TextView) findViewById(R.id.title1);
@@ -615,9 +619,17 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
     @Override
     public void onClick(View v) {
         String t=title;
-                simpleWebView.setWebViewClient(new MyWebViewClient());
+
                 String url = "http://10.0.2.2/index.php?recipe="+t;
-                simpleWebView.getSettings().setJavaScriptEnabled(true);
+              //  simpleWebView.getSettings().setJavaScriptEnabled(true);
+              //  simpleWebView.getSettings().setUseWideViewPort(true);
+        //simpleWebView.getSettings().setLoadWithOverviewMode(true);
+        WebSettings settings = simpleWebView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        simpleWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        simpleWebView.getSettings().setLoadWithOverviewMode(true);
+        simpleWebView.getSettings().setUseWideViewPort(true);
+        simpleWebView.setWebViewClient(new MyWebViewClient());
                 simpleWebView.loadUrl(url); // load a web page in a web view
     }
 

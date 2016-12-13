@@ -125,11 +125,11 @@ public class BaseActivity extends ActionBarActivity {
 
 		_items = new ArrayList<Items>();
 		_items.add(new Items("Show Recipe", "", R.drawable.recipe));
-		_items.add(new Items("Add recipe", "", R.drawable.add_recipe));
-		_items.add(new Items("show favourite", "", R.drawable.favourit));
-		_items.add(new Items("profile ", "", R.drawable.profile));
-		_items.add(new Items("calory tracking", "", R.drawable.calory));
-		_items.add(new Items("edit profile", "", R.drawable.edit_profile));
+		_items.add(new Items("Add Recipe", "", R.drawable.add_recipe));
+		_items.add(new Items("Show Favourite", "", R.drawable.favourit));
+		_items.add(new Items("Profile ", "", R.drawable.profile));
+		_items.add(new Items("Calory Tracking", "", R.drawable.calory));
+		_items.add(new Items("Edit Profile", "", R.drawable.edit_profile));
 		_items.add(new Items("Logout", "", R.drawable.logout));
 
 

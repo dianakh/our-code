@@ -97,14 +97,13 @@
 
             <AutoCompleteTextView
                 android:id="@+id/auto"
-                android:layout_width="wrap_content"
+                android:layout_width="163dp"
                 android:layout_height="53dp"
                 android:layout_alignParentTop="true"
                 android:ems="10"
                 android:completionThreshold="1"
                 android:text=""
                 android:layout_alignParentStart="false"
-                android:layout_weight="400010.69"
                 android:layout_alignParentLeft="false">
 
                 <requestFocus />
@@ -137,7 +136,8 @@
                 android:fontFamily="@string/abc_font_family_button_material"
                 android:textStyle="bold|italic"
                 android:textColor="#333131"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:layout_marginBottom="5dp" />
 
         </LinearLayout>
 
@@ -179,7 +179,8 @@
             <TableRow
                 android:id="@+id/tableRow2"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:id="@+id/text" android:text="0"
@@ -289,52 +290,67 @@
                 android:nestedScrollingEnabled="false" />
         </LinearLayout>
 
+
+        //   <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/buttonshape"
+            android:text="Add photo"
+            android:id="@+id/bb"
+            android:layout_marginTop="30dp"
+            style="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:theme="@style/MyButton"
+            android:layout_marginLeft="1dp"
+            android:allowUndo="false" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/img"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="70dp"
+            android:scaleType="centerCrop" />
+
+
+    </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:weightSum="1">
+            android:layout_height="80dp">
+
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="select photo"
-                android:id="@+id/bb"
-                android:layout_marginTop="30dp"
+                android:theme="@style/MyButton"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/buttonshape"
+                android:text="Add video"
+                android:id="@+id/videobutton"
                 style="@android:style/Theme.NoTitleBar.Fullscreen"
-                android:background="#baaeae"
-                android:layout_marginLeft="70dp"
-                android:allowUndo="false" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/img"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="70dp"
-                android:scaleType="centerCrop" />
+                android:allowUndo="false"
+                />
 
 
-        </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pick file"
-            android:id="@+id/button"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Video Selected path:"
-            android:id="@+id/t1" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Video Selected path:"
+                android:id="@+id/t1" />
+
+               </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

@@ -40,6 +40,7 @@ public class oldTraking extends BaseActivity  {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_oldtraking, frameLayout);
         mDrawerList.setItemChecked(position, true);
+        /////
         LISTVIEW = (ListView) findViewById(R.id.listView1);
         calory_sum = (TextView) findViewById(R.id.calorySum);
            //take date selected by user
