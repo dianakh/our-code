@@ -133,14 +133,14 @@
             android:showDividers="end">
 
             <Spinner
-                android:layout_width="67dp"
+                android:layout_width="99dp"
                 android:layout_height="80dp"
                 android:id="@+id/spinner1"
                 style="@style/mySpinnerItemStyle"
                 android:entries="@array/country_arrays" />
 
             <Spinner
-                android:layout_width="60dp"
+                android:layout_width="116dp"
                 android:entries="@array/amount"
                 android:layout_height="50dp"
 
@@ -148,14 +148,13 @@
 
             <AutoCompleteTextView
                 android:id="@+id/auto"
-                android:layout_width="wrap_content"
+                android:layout_width="116dp"
                 android:layout_height="53dp"
                 android:layout_alignParentTop="true"
                 android:ems="10"
                 android:completionThreshold="1"
                 android:text=""
                 android:layout_alignParentStart="false"
-                android:layout_weight="488010.69"
                 android:layout_alignParentLeft="false"
                 android:textColor="#3a3838">
 
@@ -163,8 +162,8 @@
             </AutoCompleteTextView>
 
             <ImageButton
-                android:layout_width="79dp"
-                android:layout_height="50dp"
+                android:layout_width="52dp"
+                android:layout_height="53dp"
                 android:id="@+id/getall"
                 android:background="@null"
                 android:src="@android:drawable/ic_menu_add"
@@ -187,14 +186,16 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:showDividers="end">
+            android:showDividers="end"
+            android:weightSum="1">
 
             <Spinner
-                android:layout_width="67dp"
+                android:layout_width="61dp"
                 android:layout_height="51dp"
                 android:id="@+id/spinner3"
                 style="@style/mySpinnerItemStyle"
-                android:entries="@array/amount"/>
+                android:entries="@array/amount"
+                android:layout_weight="0.95" />
 
             <AutoCompleteTextView
                 android:id="@+id/auto1"
@@ -205,13 +206,14 @@
                 android:completionThreshold="1"
                 android:text=""
                 android:layout_alignParentStart="false"
-                android:layout_weight="488010.69"
-                android:layout_alignParentLeft="false">
+                android:layout_alignParentLeft="false"
+                android:layout_weight="0.52">
 
                 <requestFocus />
             </AutoCompleteTextView>
+
             <ImageButton
-                android:layout_width="79dp"
+                android:layout_width="62dp"
                 android:layout_height="50dp"
                 android:id="@+id/getall2"
                 android:background="@null"

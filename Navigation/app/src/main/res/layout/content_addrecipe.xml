@@ -86,7 +86,8 @@
                 android:layout_width="60dp"
                 android:entries="@array/amount"
                 android:layout_height="fill_parent"
-                android:id="@+id/spinner2" />
+                android:id="@+id/spinner2"
+                android:layout_weight="815346.25" />
 
             <Spinner
                 android:layout_width="80dp"
@@ -97,7 +98,7 @@
 
             <AutoCompleteTextView
                 android:id="@+id/auto"
-                android:layout_width="163dp"
+                android:layout_width="133dp"
                 android:layout_height="53dp"
                 android:layout_alignParentTop="true"
                 android:ems="10"

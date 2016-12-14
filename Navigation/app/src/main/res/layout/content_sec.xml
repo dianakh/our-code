@@ -469,69 +469,8 @@
                     android:id="@+id/textView12" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/videolayout"
-                android:orientation="vertical"
-                android:layout_width="152dp"
-                android:layout_height="200dp"
-                android:weightSum="1"
-                android:layout_marginLeft="10dp">
-                <TextView
-                    android:layout_width="253dp"
-                    android:layout_height="40dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Recipe video :"
-                    android:id="@+id/tekxtVihjhewaahg"
-                    android:textColor="#333131"
-                    android:layout_marginTop="20dp"
-                    android:textSize="25dp"
-                    android:textStyle="normal|bold|italic" />
-
-                <FrameLayout
-                    android:id="@+id/videoViewWrapper"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true" >
-                    <VideoView
-                        android:id="@+id/myVideo"
-                        android:layout_width="265dp"
-                        android:layout_height="146dp"
-                        android:layout_centerInParent="true" />
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <include layout="@layout/item_divider" />
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <Button
-                    android:id="@+id/loadWebPage"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/buttonshape"
-                    android:text="Show Comments"
-                    android:textColor="#fff"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
 
         </LinearLayout>
-
-
-        <WebView
-            android:id="@+id/simpleWebView"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:scrollbars="none" />
     </LinearLayout>
 
 </ScrollView>

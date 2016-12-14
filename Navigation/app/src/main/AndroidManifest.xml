@@ -10,15 +10,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="MyRecipe"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -124,6 +123,10 @@
             android:theme="@style/AppTheme"></activity>
         <activity
             android:name="com.example.hp.navigation.activity.ShowMyRecipe"
+            android:label="Show recipe"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name="com.example.hp.navigation.activity.main_activity_fragment"
             android:label="Show recipe"
             android:theme="@style/AppTheme"></activity>
     </application>

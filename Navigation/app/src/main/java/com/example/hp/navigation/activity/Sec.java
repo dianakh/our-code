@@ -15,10 +15,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -63,7 +68,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class Sec extends BaseActivity implements View.OnClickListener  {
+import static android.content.Context.MODE_PRIVATE;
+import static com.nbsp.materialfilepicker.R.id.container;
+
+public class Sec extends Fragment   {
     String title;
     public TextView titl;
     public TextView calor;
@@ -90,9 +98,9 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
     public static TextView Textvitb12;
     public static TextView Textvite;
     public  ImageView imagevieww;
-    private int position = 0;
-    private MediaController mediaController;
-    VideoView vidView;
+    public ImageView imageview;
+
+
     ScrollView scroll;
     BroadcastReceiver receiver;
     public static final String mBroadcastStringAction = "com.truiton.broadcast.string";
@@ -101,10 +109,9 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
 
     recipeDbHelper userDbHelper2;
     SQLiteDatabase sqLiteDatabase;
-    LinearLayout videoLayout;
+
     Cursor cursor;
-    WebView simpleWebView;
-    Button loadWebPage;
+
     int r=0;
 
    // public MyCount timer;
@@ -112,57 +119,57 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
     public Button s;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_sec, frameLayout);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
 
+        View view = inflater.inflate(R.layout.activity_sec, container, false);
         /**
          * Setting title and itemChecked
          */
-        mDrawerList.setItemChecked(position, true);
-        setTitle(listArray[position]);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        scroll=(ScrollView) findViewById(R.id.scrollView2);
+      //  mDrawerList.setItemChecked(position, true);
+        //setTitle("Recipe");
+      //  getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        scroll=(ScrollView) view.findViewById(R.id.scrollView2);
         scroll.smoothScrollTo(0,0);
       //  scroll.fullScroll(ScrollView.FOCUS_UP);
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        b = (Button) findViewById(R.id.totalbutton);
-        share = (ImageButton) findViewById(R.id.share);
-     imagevieww = (ImageView) findViewById(R.id.imagev);
-        vidView = (VideoView)findViewById(R.id.myVideo);
-        Textvitc=(TextView) findViewById(R.id.text_c);
-        Textcal=(TextView) findViewById(R.id.textcal);
-        Textpro=(TextView) findViewById(R.id.text_pro);
-        Textiron=(TextView) findViewById(R.id.text_iron);
-        Textcalc=(TextView) findViewById(R.id.text_calc);
-        Textvitb6=(TextView) findViewById(R.id.text_b6);
-        Textvitb12=(TextView) findViewById(R.id.text_b12);
-        Textvite=(TextView) findViewById(R.id.text_e);
-         videoLayout=(LinearLayout)this.findViewById(R.id.videolayout);
-        loadWebPage = (Button) findViewById(R.id.loadWebPage);
-        loadWebPage.setOnClickListener(this);
-        simpleWebView = (WebView) findViewById(R.id.simpleWebView);
+        b = (Button) view.findViewById(R.id.totalbutton);
+        share = (ImageButton) view.findViewById(R.id.share);
+     imagevieww = (ImageView) view.findViewById(R.id.imagev);
+
+        imageview = (ImageView)view.findViewById(R.id.imagev);
+        Textvitc=(TextView) view.findViewById(R.id.text_c);
+        Textcal=(TextView) view.findViewById(R.id.textcal);
+        Textpro=(TextView) view.findViewById(R.id.text_pro);
+        Textiron=(TextView) view.findViewById(R.id.text_iron);
+        Textcalc=(TextView) view.findViewById(R.id.text_calc);
+        Textvitb6=(TextView) view.findViewById(R.id.text_b6);
+        Textvitb12=(TextView) view.findViewById(R.id.text_b12);
+        Textvite=(TextView) view.findViewById(R.id.text_e);
+
+
 
         // Go = (Button) findViewById(R.id.go);
-        title=getIntent().getStringExtra("title");
-        titl = (TextView) findViewById(R.id.title1);
-        calor = (TextView) findViewById(R.id.calory1);
-        des = (TextView) findViewById(R.id.desc1);
-        pre = (TextView) findViewById(R.id.prep1);
-        coo = (TextView) findViewById(R.id.cook1);
-        tota = (TextView) findViewById(R.id.total1);
-        Integ = (TextView) findViewById(R.id.integ);
-        Username= (TextView) findViewById(R.id.username);
-        i= new Intent(getApplicationContext(), MyService.class);
-        Toast.makeText(getApplicationContext(), title, Toast.LENGTH_LONG).show();
-        if(getIntent().getStringExtra("type").equalsIgnoreCase("sec")){
-            Toast.makeText(getApplicationContext(), "sec", Toast.LENGTH_LONG).show();
+        title=getActivity().getIntent().getStringExtra("title");
+        titl = (TextView) view.findViewById(R.id.title1);
+        calor = (TextView) view.findViewById(R.id.calory1);
+        des = (TextView) view.findViewById(R.id.desc1);
+        pre = (TextView) view.findViewById(R.id.prep1);
+        coo = (TextView) view.findViewById(R.id.cook1);
+        tota = (TextView) view.findViewById(R.id.total1);
+        Integ = (TextView) view.findViewById(R.id.integ);
+        Username= (TextView) view.findViewById(R.id.username);
+        i= new Intent(getActivity(), MyService.class);
+        Toast.makeText(getActivity(), title, Toast.LENGTH_LONG).show();
+        if(getActivity().getIntent().getStringExtra("type").equalsIgnoreCase("sec")){
+            Toast.makeText(getActivity(), "sec", Toast.LENGTH_LONG).show();
         jso(title);
 
-        }else if(getIntent().getStringExtra("type").equalsIgnoreCase("fav")){
+        }else if(getActivity().getIntent().getStringExtra("type").equalsIgnoreCase("fav")){
             String alldesc="";
-            Toast.makeText(getApplicationContext(), "fav", Toast.LENGTH_LONG).show();
-            userDbHelper2=new recipeDbHelper(getApplicationContext());
+            Toast.makeText(getActivity(), "fav", Toast.LENGTH_LONG).show();
+            userDbHelper2=new recipeDbHelper(getActivity());
             sqLiteDatabase=userDbHelper2.getReadableDatabase();
             cursor=userDbHelper2.SelectAllData(title,sqLiteDatabase);
 
@@ -181,7 +188,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
 
                     byte[] qrimage = Base64.decode(image.getBytes(), 0);
                     bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
-                    ImageView imageview = (ImageView) findViewById(R.id.imagev);
+                    ImageView imageview = (ImageView) view.findViewById(R.id.imagev);
                     String[] separated = list.split("-");
                     int ji = 1;
                     for (; ji < separated.length-1; ji++) {
@@ -222,7 +229,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
                     coo.setText(cook);
                     Integ.setText(all);
 
-                    Toast.makeText(getApplicationContext(),list, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),list, Toast.LENGTH_LONG).show();
 
                 }while (cursor.moveToNext());
      /*   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -234,12 +241,12 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
             }
         });*/
             }
-        }else if(getIntent().getStringExtra("type").equalsIgnoreCase("offline"))
+        }else if(getActivity().getIntent().getStringExtra("type").equalsIgnoreCase("offline"))
         {
            String alldesc="";
-            Toast.makeText(getApplicationContext(), "offline", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "offline", Toast.LENGTH_LONG).show();
 
-            userDbHelper2=new recipeDbHelper(getApplicationContext());
+            userDbHelper2=new recipeDbHelper(getActivity());
             sqLiteDatabase=userDbHelper2.getReadableDatabase();
             cursor=userDbHelper2.SelectAllDataoffline(title,sqLiteDatabase);
 
@@ -256,7 +263,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
                     String image = cursor.getString(8);
                     byte[] qrimage = Base64.decode(image.getBytes(), 0);
                     bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
-                    ImageView imageview = (ImageView) findViewById(R.id.imagev);
+                    ImageView imageview = (ImageView) view.findViewById(R.id.imagev);
                     String[] separated = list.split("-");
                     int ji = 0;
                     for (; ji < separated.length ; ji++) {
@@ -295,7 +302,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
                     coo.setText(cook);
                     Integ.setText(all);
 
-                    Toast.makeText(getApplicationContext(), list, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), list, Toast.LENGTH_LONG).show();
 
                 } while (cursor.moveToNext());
      /*   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -309,17 +316,17 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
             }
 
         }
-        T = (TextView) findViewById(R.id.t);
+        T = (TextView) view.findViewById(R.id.t);
 
         b.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0)  {
                 String m=  tota.getText().toString();
 
-                stopService(i.addCategory(MyService.COPA_MESSAGE));
+                getActivity().stopService(i.addCategory(MyService.COPA_MESSAGE));
                 i.putExtra("m", m);
                // i.putExtra("flag", "1");
                 i.putExtra("title",titl.getText().toString());
-                getApplicationContext().startService(i.addCategory(MyService.COPA_MESSAGE));
+                getActivity().startService(i.addCategory(MyService.COPA_MESSAGE));
             }});
 
 
@@ -346,14 +353,14 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
                     // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
                     // do something here.
                 }  }};
-        s= (Button) findViewById(R.id.stop);
+        s= (Button) view.findViewById(R.id.stop);
 
         s.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
 
-                Toast.makeText(getApplicationContext(), "timer has been stoped", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "timer has been stoped", Toast.LENGTH_LONG).show();
                 b.setText("Restart Timer");
-              stopService(i.addCategory(MyService.COPA_MESSAGE));
+                getActivity().stopService(i.addCategory(MyService.COPA_MESSAGE));
 
                 // String m=b.getText().toString();
 // potentially add data to the intent
@@ -580,96 +587,21 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
             Log.i(TAG, "Countdown : " +  millisUntilFinished / 1000);
         }*/
         // Set the media controller buttons
-        if (mediaController == null) {
-            mediaController = new MediaController(Sec.this);
 
-            // Set the videoView that acts as the anchor for the MediaController.
-            mediaController.setAnchorView(vidView);
+        return view;
 
-
-            // Set MediaController for VideoView
-            vidView.setMediaController(mediaController);
-        }
-
-        // When the video file ready for playback.
-        vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                vidView.seekTo(position);
-                //    if (position == 0) {
-                //        vidView.start();
-                //   }
-
-                // When video Screen change size.
-                mediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                    @Override
-                    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-
-                        // Re-Set the videoView that acts as the anchor for the MediaController
-                        mediaController.setAnchorView(vidView);
-
-                    }
-                });
-            }
-        });
-
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        String t=title;
-
-                String url = "http://10.0.2.2/index.php?recipe="+t;
-              //  simpleWebView.getSettings().setJavaScriptEnabled(true);
-              //  simpleWebView.getSettings().setUseWideViewPort(true);
-        //simpleWebView.getSettings().setLoadWithOverviewMode(true);
-        WebSettings settings = simpleWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        simpleWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        simpleWebView.getSettings().setLoadWithOverviewMode(true);
-        simpleWebView.getSettings().setUseWideViewPort(true);
-        simpleWebView.setWebViewClient(new MyWebViewClient());
-                simpleWebView.loadUrl(url); // load a web page in a web view
-    }
-
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            return true;
-        }
-    }
-
-
-    // When you change direction of phone, this method will be called.
-    // It store the state of video (Current position)
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        // Store current position.
-        savedInstanceState.putInt("CurrentPosition", vidView.getCurrentPosition());
-        vidView.pause();
     }
 
 
     // After rotating the phone. This method is called.
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
 
-        // Get saved position.
-        position = savedInstanceState.getInt("CurrentPosition");
-        vidView.seekTo(position);
-    }
     @Override
-    protected void onStop() {
+    public void onStop() {
         // TODO Auto-generated method stub
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
         super.onStop();
     }
-    protected void onStart() {
+    public void onStart() {
         // TODO Auto-generated method stub
 
         //Register BroadcastReceiver
@@ -678,7 +610,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
 
 
         super.onStart();
-        LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver((receiver),
                 new IntentFilter(MyService.COPA_RESULT)
         );
     }
@@ -707,7 +639,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
             public String vitb12 = "";
             public String vite = "";
             public Integer id;
-            ImageView imageview;
+             public ImageView imageview;
             public String all="";
             public String alldesc="";
             public String name1 = "";
@@ -741,7 +673,7 @@ public class Sec extends BaseActivity implements View.OnClickListener  {
               //  records= new ArrayList<Record>();
 Log.d("result",s);
                 try {
-                    userDbHelper3=new recipeDbHelper(getApplicationContext());
+                    userDbHelper3=new recipeDbHelper(getActivity());
                     sqLiteDatabase=userDbHelper3.getWritableDatabase();
 
                     // Text.setText(s);
@@ -772,6 +704,16 @@ Log.d("result",s);
                         vitb12 = c.getString("vitb12");
                         vite = c.getString("vite");
 
+                        //pass video variable to fragment vedio
+                        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+
+                        editor.putString("myvideo", video);
+                        editor.putString("recipetitle", title);
+
+                        // Save the changes in SharedPreferences
+                        editor.commit();   // commit changes
+
                       //  JSONArray it = c.getJSONArray("list");
                     //    list = it.toString();
                    list = c.getString("list");
@@ -779,7 +721,7 @@ Log.d("result",s);
                         userDbHelper3.close();
                         byte[] qrimage = Base64.decode(image.getBytes(), i);
                         bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
-                      imageview = (ImageView) findViewById(R.id.imagev);
+
                        list.replaceAll("]",".");
                         String[] separated = list.split("-");
                         int ji = 1;
@@ -819,6 +761,7 @@ Log.d("result",s);
                             e.printStackTrace();
                         }*/
                        // Toast.makeText(getApplicationContext(),qrimage.toString(), Toast.LENGTH_SHORT).show();
+                        imageview = (ImageView) getView().findViewById(R.id.imagev);
                         imageview.setImageBitmap(bmp);
                         //  names.add(title);
 
@@ -834,17 +777,7 @@ Log.d("result",s);
 
                     }
 
-                    video=video.replaceAll("\\s","");
-                    if(video.equals("novideo")){
-                        videoLayout.setVisibility(LinearLayout.GONE);
-                    }
-                    else {
-                        String vidAddress = "http://10.0.2.2/upload/" + video;
-                        Uri vidUri = Uri.parse(vidAddress);
-                        vidView.setVideoURI(vidUri);
 
-                        vidView.requestFocus();
-                    }
                     titl.setText(title);
                     des.setText(alldesc);
                     calor.setText(calory);
@@ -862,8 +795,8 @@ Log.d("result",s);
                     Textiron.setText(iron);
                     Textcalc.setText(calc);
                     Textvitc.setText(vitc);
-                    Toast.makeText(getApplicationContext(), cook, Toast.LENGTH_LONG).show();
-                    vivsadapter = new Vivsadapter(Sec.this,records);
+                    Toast.makeText(getActivity(), cook, Toast.LENGTH_LONG).show();
+                    vivsadapter = new Vivsadapter(getActivity(),records);
 
                      /*   JSONObject list = jObj.getJSONObject("list");
                         String item = list.toString();
@@ -904,12 +837,12 @@ Log.d("result",s);
 
                 share.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View arg0)  {
-                        FacebookSdk.sdkInitialize(getApplicationContext());
+                        FacebookSdk.sdkInitialize(getActivity());
 
                         String calo=calor.getText().toString();
                         CallbackManager callbackManager = CallbackManager.Factory.create();
                         ShareDialog shareDialog = new ShareDialog(Sec.this);
-                        AlertDialog.Builder shareDialog2 = new AlertDialog.Builder(Sec.this);
+                        AlertDialog.Builder shareDialog2 = new AlertDialog.Builder(getActivity());
                         ShareDialog shareDialog1 = new ShareDialog(Sec.this);
                         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
 
@@ -1183,7 +1116,7 @@ Log.d("result",s);
                     String db_type = c.getString("chif_type");
                     String db_appid = c.getString("chif_appid");
                     String db_faceid = c.getString("chif_faceid");
-                    SharedPreferences pref = getSharedPreferences("MyPref", MODE_PRIVATE);
+                    SharedPreferences pref = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("chif_type", db_type);
                     if(db_appid.equals("noid")){
@@ -1197,7 +1130,7 @@ Log.d("result",s);
 
                     editor.commit();
                 }
-                startActivity(new Intent(Sec.this, chifProfile.class));
+                startActivity(new Intent(getActivity(), chifProfile.class));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1279,7 +1212,9 @@ Log.d("result",s);
                         userDbHelper3.addsqliterecipeoffline(title,list,desc,calory,prep,cook,total,image,sqLiteDatabase);
                         userDbHelper3.close();
                         byte[] qrimage = Base64.decode(image.getBytes(), i);
-                        bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
+
+
+                       bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
                         ImageView imageview = (ImageView) findViewById(R.id.imagev);
                         String[] separated = list.split("-");
                         int ji = 1;

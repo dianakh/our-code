@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = pref.edit();
             editor.clear();
             editor.putString("user_type", "app");
-            GetEmail e=new GetEmail();
+            GetEmail e=new GetEmail(this);
             e.execute(name);
             editor.putString("valid_user", "logged");
             editor.commit();
