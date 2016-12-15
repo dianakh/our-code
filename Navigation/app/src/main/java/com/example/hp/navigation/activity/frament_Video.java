@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.*;
+import android.widget.MediaController;
+import android.widget.Toast;
 
 import com.navigation.drawer.activity.R;
 
@@ -23,154 +31,63 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class frament_Video extends Fragment {
-    private MediaController mediaController;
-    VideoView vidView;
-    private int position = 0;
+    private static final String TAG = "VideoPlayer";
     FrameLayout videoLayout;
     public TextView noVideo;
     String myvideo;
-
+    private VideoView videoView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_vedio, container, false);
+        noVideo=(TextView) root.findViewById(R.id.noVideoText);
+        videoLayout=(FrameLayout) root.findViewById(R.id.videolayout);
+        videoView = (VideoView) root.findViewById(R.id.myVideo);
 
-        View view = inflater.inflate(R.layout.fragment_vedio, container, false);
-        vidView = (VideoView)view.findViewById(R.id.myVideo);
-        noVideo=(TextView) view.findViewById(R.id.noVideoText);
-        videoLayout=(FrameLayout) view.findViewById(R.id.videolayout);
-        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE);
-         myvideo=pref.getString("myvideo","defult");
-        if (mediaController == null) {
-            mediaController =  new MediaController(getActivity()){
-                @Override
-                public void show (int timeout){
-                    if(timeout == 3000) timeout = 60000; //Set to desired number
-                    super.show(timeout);
-                }
-            };
-
-            // Set the videoView that acts as the anchor for the MediaController.
-            mediaController.setAnchorView(vidView);
-
-
-            // Set MediaController for VideoView
-            vidView.setMediaController(mediaController);
-        }
-        myvideo=myvideo.replaceAll("\\s","");
-        if(myvideo.equals("novideo")){
-            videoLayout.setVisibility(LinearLayout.GONE);
-            noVideo.setText("There is no video for the Recipe");
-        }
-        else {
-            String vidAddress = "http://10.0.2.2/upload/" + myvideo;
-            Uri vidUri = Uri.parse(vidAddress);
-            vidView.setVideoURI(vidUri);
-            vidView.requestFocus();
-        }
-
-        // When the video file ready for playback.
-        vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                vidView.seekTo(position);
-                  if (position == 0) {
-                        vidView.start();
-                   }
-
-                // When video Screen change size.
-                mediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                    @Override
-                    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-
-                        // Re-Set the videoView that acts as the anchor for the MediaController
-                        mediaController.setAnchorView(vidView);
-
-                    }
-                });
-            }
-
-        });
-        return view;
+        return root;
     }
-
-    // When you change direction of phone, this method will be called.
-    // It store the state of video (Current position)
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        // Store current position.
-        savedInstanceState.putInt("CurrentPosition", vidView.getCurrentPosition());
-        vidView.pause();
-    }
-
-
-    // After rotating the phone. This method is called.
-    // After rotating the phone. This method is called.
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            position = savedInstanceState.getInt("CurrentPosition");
-            vidView.seekTo(position);
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE);
+        myvideo=pref.getString("myvideo","defult");
+        videoView.setMediaController(new MediaController(getActivity()));
+        playVideo();
+    }
 
-        }
-
-        if (mediaController == null) {
-            mediaController =  new MediaController(getActivity()){
-                @Override
-                public void show (int timeout){
-                    if(timeout == 3000) timeout = 60000; //Set to desired number
-                    super.show(timeout);
-                }
-            };
-
-            // Set the videoView that acts as the anchor for the MediaController.
-            mediaController.setAnchorView(vidView);
-
-
-            // Set MediaController for VideoView
-            vidView.setMediaController(mediaController);
-        }
+    public void playVideo() {
         myvideo=myvideo.replaceAll("\\s","");
         if(myvideo.equals("novideo")){
             videoLayout.setVisibility(LinearLayout.GONE);
             noVideo.setText("There is no video for the Recipe");
         }
         else {
+
             String vidAddress = "http://10.0.2.2/upload/" + myvideo;
             Uri vidUri = Uri.parse(vidAddress);
-            vidView.setVideoURI(vidUri);
-            vidView.requestFocus();
-        }
-
-        // When the video file ready for playback.
-        vidView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                vidView.seekTo(position);
-                if (position == 0) {
-                    vidView.start();
-                }
-
-                // When video Screen change size.
-                mediaPlayer.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                    @Override
-                    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-
-                        // Re-Set the videoView that acts as the anchor for the MediaController
-                        mediaController.setAnchorView(vidView);
-
-                    }
-                });
+            // Uri uri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.test_vid);
+            Log.d(TAG, "Uri is: " + vidUri);
+            setVideoLocation(vidUri);
+            if (!videoView.isPlaying()) {
+                videoView.start();
             }
 
-        });
+        }
+
     }
 
+    private void setVideoLocation(Uri uri) {
+        try {
+            videoView.setVideoURI(uri);
+        } catch (Exception e) {
+            Log.e(TAG, "VideoPlayer uri was invalid", e);
+            Toast.makeText(getActivity(), "Not found", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    public void pauseVideo() {
+        videoView.pause();
+    }
 
 }

@@ -293,7 +293,7 @@ public class BaseActivity extends ActionBarActivity {
 			searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
 				@Override
 				public boolean onSuggestionClick(int position) {
-//here go to recipe
+                      //here go to recipe
 					// Add clicked text to search box
 					CursorAdapter ca = searchView.getSuggestionsAdapter();
 					Cursor cursor = ca.getCursor();
@@ -301,7 +301,6 @@ public class BaseActivity extends ActionBarActivity {
 					searchView.setQuery(cursor.getString(cursor.getColumnIndex("title")),false);
 					return true;
 				}
-
 				@Override
 				public boolean onSuggestionSelect(int position) {
 					return true;
@@ -312,7 +311,6 @@ public class BaseActivity extends ActionBarActivity {
 				public boolean onQueryTextSubmit(String s) {
 					return false;
 				}
-
 				@Override
 				public boolean onQueryTextChange(String s) {
 

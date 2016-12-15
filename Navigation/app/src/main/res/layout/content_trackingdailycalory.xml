@@ -126,53 +126,7 @@
             android:textColor="#3a3838" />
 
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:showDividers="end">
-
-            <Spinner
-                android:layout_width="99dp"
-                android:layout_height="80dp"
-                android:id="@+id/spinner1"
-                style="@style/mySpinnerItemStyle"
-                android:entries="@array/country_arrays" />
-
-            <Spinner
-                android:layout_width="116dp"
-                android:entries="@array/amount"
-                android:layout_height="50dp"
-
-                android:id="@+id/spinner2" />
-
-            <AutoCompleteTextView
-                android:id="@+id/auto"
-                android:layout_width="116dp"
-                android:layout_height="53dp"
-                android:layout_alignParentTop="true"
-                android:ems="10"
-                android:completionThreshold="1"
-                android:text=""
-                android:layout_alignParentStart="false"
-                android:layout_alignParentLeft="false"
-                android:textColor="#3a3838">
-
-                <requestFocus />
-            </AutoCompleteTextView>
-
-            <ImageButton
-                android:layout_width="52dp"
-                android:layout_height="53dp"
-                android:id="@+id/getall"
-                android:background="@null"
-                android:src="@android:drawable/ic_menu_add"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="5dp"
-                android:scaleType="fitCenter" />
-
-        </LinearLayout>
-        <TextView
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -182,7 +136,58 @@
             android:fontFamily="@string/abc_font_family_button_material"
             android:textStyle="normal|italic"
             android:textColor="#3a3838" />
-        <LinearLayout
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:showDividers="end"
+        android:weightSum="1">
+
+        <Spinner
+            android:layout_width="87dp"
+            android:layout_height="80dp"
+            android:id="@+id/spinner1"
+            style="@style/mySpinnerItemStyle"
+            android:entries="@array/country_arrays"
+            android:layout_weight="0.02" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:entries="@array/amount"
+            android:layout_height="50dp"
+
+            android:id="@+id/spinner2" />
+
+        <AutoCompleteTextView
+            android:id="@+id/auto"
+            android:layout_width="116dp"
+            android:layout_height="53dp"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:completionThreshold="1"
+            android:text=""
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:textColor="#3a3838"
+            android:layout_weight="0.19">
+
+            <requestFocus />
+        </AutoCompleteTextView>
+
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="43dp"
+            android:id="@+id/getall"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_add"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="5dp"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -199,22 +204,21 @@
 
             <AutoCompleteTextView
                 android:id="@+id/auto1"
-                android:layout_width="wrap_content"
+                android:layout_width="146dp"
                 android:layout_height="53dp"
                 android:layout_alignParentTop="true"
                 android:ems="10"
                 android:completionThreshold="1"
                 android:text=""
                 android:layout_alignParentStart="false"
-                android:layout_alignParentLeft="false"
-                android:layout_weight="0.52">
+                android:layout_alignParentLeft="false">
 
                 <requestFocus />
             </AutoCompleteTextView>
 
             <ImageButton
-                android:layout_width="62dp"
-                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_height="48dp"
                 android:id="@+id/getall2"
                 android:background="@null"
                 android:src="@android:drawable/ic_menu_add"

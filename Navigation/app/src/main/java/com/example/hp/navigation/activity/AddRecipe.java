@@ -786,7 +786,7 @@ Float calorysum=sums.get(0);
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.recipe, menu);
+        getMenuInflater().inflate(R.menu.fragment_menu, menu);
         return true;
     }
 
@@ -1308,5 +1308,6 @@ Float calorysum=sums.get(0);
         return super.onOptionsItemSelected(item);
 
     }
+
 }
 
